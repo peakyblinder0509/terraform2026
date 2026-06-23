@@ -15,7 +15,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'mobile-crd', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([aws(credentialsId: 'mobile-crd', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh 'terraform init'
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'mobile-crd', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([aws(credentialsId: 'mobile-crd', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh 'terraform plan -out=tfplan'
                 }
             }
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'mobile-crd', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                withCredentials([aws(credentialsId: 'mobile-crd', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh 'terraform apply -auto-approve tfplan'
                 }
             }
